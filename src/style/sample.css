@@ -1,3 +1,32 @@
-body {
-  background-color: azure;
+#city-dropdown {
+  display: block;
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: auto;
+  width: 100%;
+  z-index: 100;
+  box-sizing: border-box;
+}
+
+#city-dropdown li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+#city-dropdown li:hover {
+  background-color: #f0f0f0;
+}
+
+.city-image img {
+  border-radius: 10px;
+  margin-bottom: 20px;
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.city-image img:hover {
+  transform: scale(1.05);
 }
