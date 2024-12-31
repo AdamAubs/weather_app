@@ -1,32 +1,147 @@
+/* App container */
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  justify-content: flex-start;
+}
+
+/* Input Section - Flexbox layout for horizontal arrangement */
+.input-section {
+  position: relative; /* This makes the dropdown position relative to the input field */
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 600px; /* Increased max-width for a larger section */
+  justify-content: space-between; /* Optionally, add space between input and button */
+}
+
+#city-input {
+  padding: 15px; /* Increased padding to make the input box larger */
+  width: 100%; /* Make input take full width of the container */
+  font-size: 1.2rem; /* Increase font size for better readability */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box; /* Ensures padding doesn't affect total width */
+}
+
+#get-weather-btn {
+  padding: 15px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px; /* Space between input and button */
+}
+
+#get-weather-btn:hover {
+  background-color: #2980b9;
+}
+
+/* City drop down menu for input */
 #city-dropdown {
   display: block;
-  position: absolute;
-  background-color: white;
+  position: absolute; /* Position it absolutely within the .input-section */
+  top: 100%; /* Position it directly below the input field */
+  left: 0; /* Align it to the left edge of the input field */
+  background-color: rgb(227, 196, 196);
   border: 1px solid #ccc;
   max-height: 200px;
-  overflow-y: auto;
-  width: 100%;
+  width: 100%; /* Ensure the dropdown takes up the full width of the input field */
   z-index: 100;
   box-sizing: border-box;
+  overflow-y: auto;
 }
 
 #city-dropdown li {
+  list-style: none;
   padding: 8px;
   cursor: pointer;
 }
 
 #city-dropdown li:hover {
+  width: 100%;
   background-color: #f0f0f0;
 }
 
-.city-image img {
-  border-radius: 10px;
-  margin-bottom: 20px;
-  object-fit: cover;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease;
+#get-weather-btn {
+  padding: 2px 20px;
+  cursor: pointer;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
 }
 
-.city-image img:hover {
-  transform: scale(1.05);
+/* Styling for the title */
+.weather-container h1 {
+  font-size: 2rem; /* Make the title bigger */
+  margin-bottom: 20px; /* Add some margin below the title to space it from the grid */
+  text-align: center;
+  color: #333;
+}
+
+/* Weather Container - CSS Grid */
+.weather-container {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(100px, 1fr)
+  ); /* Responsive grid */
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
+  max-width: 1000px;
+}
+
+/* Weather Day Div - Styling for each weather card */
+.weather-day-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+button {
+  margin-bottom: 15px;
+  padding: 8px 15px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+p {
+  font-size: 1em;
+  margin: 5px 0;
+  color: #333;
+}
+
+/* Media Query - For smaller screens */
+@media (max-width: 600px) {
+  .input-section {
+    width: 100%;
+  }
+  #city-input,
+  #city-dropdown,
+  #get-weather-btn {
+    width: 90%; /* Make inputs and button take more space */
+  }
+
+  #get-weather-btn {
+    padding: 10px 2px;
+  }
+  .weather-container {
+    grid-template-columns: 1fr; /* Stack weather cards on small screens */
+  }
 }
