@@ -111,7 +111,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-button {
+.convert-units-btn {
   margin-bottom: 15px;
   padding: 8px 15px;
   cursor: pointer;
@@ -125,6 +125,22 @@ p {
   font-size: 1em;
   margin: 5px 0;
   color: #333;
+  z-index: 1;
+}
+
+.weather-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0; /* Push video behind the content */
+}
+
+.weather-day-div {
+  position: relative;
+  overflow: hidden; /* Ensure video doesn't exceed bounds */
 }
 
 /* Media Query - For smaller screens */

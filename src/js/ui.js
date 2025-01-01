@@ -1,3 +1,11 @@
+import rainyDayVideo from '../videos/rainy-day.mp4';
+import clearDayVideo from '../videos/clear-day.mp4';
+import cloudyDayVideo from '../videos/cloudy-day.mp4';
+import foggyDayVideo from '../videos/foggy-day.mp4';
+import partlyCloudyDayVideo from '../videos/partly-cloudy-day.mp4';
+import snowyDayVideo from '../videos/snowy-day.mp4';
+import windyDayVideo from '../videos/windy-day.mp4';
+
 export function displayWeather(weatherData) {
   console.log('Displaying weather...');
   const appContainer = document.getElementById('app');
@@ -6,12 +14,18 @@ export function displayWeather(weatherData) {
   weatherContainer.classList.add('weather-container');
 
   const title = document.createElement('h1');
-  title.textContent = `The Weather in ${weatherData.address}`;
+  title.textContent = `The Weather in ${weatherData.resolvedAddress}`;
   title.classList.add('weather-title');
   appContainer.appendChild(title);
 
   console.log('printing days');
   console.log(weatherData.days);
+
+  const convertUnitsBtn = document.createElement('button');
+  convertUnitsBtn.classList.add('convert-units-btn');
+  convertUnitsBtn.textContent = 'convert to fahrenheit';
+  appContainer.appendChild(convertUnitsBtn);
+
   for (let i = 0; i < 7; i++) {
     const day = weatherData.days[i];
     console.log(day.datetime);
@@ -21,14 +35,16 @@ export function displayWeather(weatherData) {
     const weatherDayDiv = document.createElement('div');
     weatherDayDiv.classList.add('weather-day-div');
 
+    // Format date into week, month, day
+    const dateObject = new Date(day.datetime);
+    const options = { weekday: 'long', month: 'long', day: 'numeric' };
+    const formattedDate = new Intl.DateTimeFormat('en-US', options).format(
+      dateObject
+    );
     const weatherDate = document.createElement('p');
     weatherDate.classList.add('weather-date');
-    weatherDate.textContent = day.datetime;
+    weatherDate.textContent = formattedDate;
     weatherDayDiv.appendChild(weatherDate);
-
-    const convertUnitsBtn = document.createElement('button');
-    convertUnitsBtn.textContent = 'convert to fahrenheit';
-    weatherDayDiv.appendChild(convertUnitsBtn);
 
     const temp = document.createElement('p');
     temp.textContent = `The temperature is: ${day.temp}°C`;
@@ -49,8 +65,35 @@ export function displayWeather(weatherData) {
     });
 
     const description = document.createElement('p');
+    description.classList.add('description-text');
     description.textContent = `Conditions: ${day.conditions}`;
 
+    // Set background video based on weather icon
+    const videoBackground = document.createElement('video');
+    videoBackground.autoplay = true;
+    videoBackground.loop = true;
+    videoBackground.muted = true;
+    videoBackground.playsInline = true;
+    videoBackground.classList.add('weather-background');
+
+    console.log(`icon for ${formattedDate} is: ${day.icon}`);
+    if (day.icon === 'rain') {
+      videoBackground.src = rainyDayVideo;
+    } else if (day.icon === 'snow') {
+      videoBackground.src = snowyDayVideo;
+    } else if (day.icon === 'fog') {
+      videoBackground.src = foggyDayVideo;
+    } else if (day.icon === 'wind') {
+      videoBackground.src = windyDayVideo;
+    } else if (day.icon === 'cloudy') {
+      videoBackground.src = cloudyDayVideo;
+    } else if (day.icon === 'partly-cloudy-day') {
+      videoBackground.src = partlyCloudyDayVideo;
+    } else if (day.icon === 'clear-day') {
+      videoBackground.src = clearDayVideo;
+    }
+
+    weatherDayDiv.appendChild(videoBackground);
     weatherDayDiv.appendChild(description);
     weatherDayDiv.appendChild(temp);
     weatherContainer.appendChild(weatherDayDiv);
@@ -62,9 +105,11 @@ export function displayWeather(weatherData) {
 export function clearWeatherDisplay() {
   const weatherContainer = document.querySelector('.weather-container');
   const weatherContainerTitle = document.querySelector('.weather-title');
+  const convertUnitsBtn = document.querySelector('.convert-units-btn');
   if (weatherContainer) {
     weatherContainer.remove();
     weatherContainerTitle.remove();
+    convertUnitsBtn.remove();
   }
 }
 

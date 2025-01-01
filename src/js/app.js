@@ -32,7 +32,7 @@ export function initializeApp() {
   button.addEventListener('click', async () => {
     const city = document.getElementById('city-input').value;
 
-    if (fetchedCities.includes(city)) {
+    if (fetchedCities.includes(city) || city.value !== '') {
       try {
         const weatherData = await getWeather(city);
         clearWeatherDisplay();
@@ -58,7 +58,7 @@ function createInputField(appContainer) {
   // Create the input element
   const input = document.createElement('input');
   input.type = 'text';
-  input.placeholder = 'Enter city name';
+  input.placeholder = 'Enter a city name (e.g., Chicago, IL)';
   input.id = 'city-input';
   input.classList.add('city-input');
   input.setAttribute('list', 'city-list'); // Link the input to the datalist
