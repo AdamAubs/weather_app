@@ -2,6 +2,8 @@
 
 A lightweight web application that provides a 7-day weather forecast for any location worldwide.
 
+You can view the live version of the app here: [Weather App](https://adamaubs.github.io/weather_app/)
+
 ## Features
 
 - Retrieve the 7-day weather forecast for any inputted location.
