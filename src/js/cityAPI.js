@@ -15,9 +15,6 @@ export async function fetchCities(query) {
       const data = await response.json();
       // create a set to track unique city-state pairs
       const cityStateSet = new Set();
-      //   console.log(data.data);
-      //   console.log(data.data.map((city) => city.city));
-      //   console.log(data.data.map((city) => city.region));
       const uniqueCities = data.data
         .filter((city) => {
           const cityState = `${city.city}, ${city.region}`;
@@ -31,7 +28,6 @@ export async function fetchCities(query) {
           city: city.city,
           state: city.region,
         }));
-      console.log(uniqueCities.map((cities) => cities.city));
       fetchedCities = uniqueCities.map((cities) => cities.city);
       return uniqueCities;
     } else {

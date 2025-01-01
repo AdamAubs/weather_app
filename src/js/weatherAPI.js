@@ -5,7 +5,6 @@ export async function getWeather(city) {
 
     if (response.status === 200) {
       const data = await response.json();
-      console.log(data);
       return data;
     } else {
       throw new Error(

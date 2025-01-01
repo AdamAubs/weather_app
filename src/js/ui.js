@@ -1,13 +1,49 @@
-import rainyDayVideo from '../videos/rainy-day.mp4';
-import clearDayVideo from '../videos/clear-day.mp4';
-import cloudyDayVideo from '../videos/cloudy-day.mp4';
-import foggyDayVideo from '../videos/foggy-day.mp4';
-import partlyCloudyDayVideo from '../videos/partly-cloudy-day.mp4';
-import snowyDayVideo from '../videos/snowy-day.mp4';
-import windyDayVideo from '../videos/windy-day.mp4';
+async function loadVideoBackground(dayIcon) {
+  const videoBackground = document.createElement('video');
+  videoBackground.autoplay = true;
+  videoBackground.loop = true;
+  videoBackground.muted = true;
+  videoBackground.playsInline = true;
+  videoBackground.classList.add('weather-background');
 
-export function displayWeather(weatherData) {
-  console.log('Displaying weather...');
+  try {
+    let videoModule;
+    switch (dayIcon) {
+      case 'rain':
+        videoModule = await import('../videos/rainy-day.mp4');
+        break;
+      case 'snow':
+        videoModule = await import('../videos/snowy-day.mp4');
+        break;
+      case 'fog':
+        videoModule = await import('../videos/foggy-day.mp4');
+        break;
+      case 'wind':
+        videoModule = await import('../videos/windy-day.mp4');
+        break;
+      case 'cloudy':
+        videoModule = await import('../videos/cloudy-day.mp4');
+        break;
+      case 'partly-cloudy-day':
+        videoModule = await import('../videos/partly-cloudy-day.mp4');
+        break;
+      case 'clear-day':
+        videoModule = await import('../videos/clear-day.mp4');
+        break;
+      default:
+        console.error(`No video for icon: ${dayIcon}`);
+        return null;
+    }
+
+    videoBackground.src = videoModule.default; // Use the dynamically imported video file
+    return videoBackground;
+  } catch (error) {
+    console.error(`Failed to load video for icon: ${dayIcon}`, error);
+    return null;
+  }
+}
+
+export async function displayWeather(weatherData) {
   const appContainer = document.getElementById('app');
 
   const weatherContainer = document.createElement('div');
@@ -18,9 +54,6 @@ export function displayWeather(weatherData) {
   title.classList.add('weather-title');
   appContainer.appendChild(title);
 
-  console.log('printing days');
-  console.log(weatherData.days);
-
   const convertUnitsBtn = document.createElement('button');
   convertUnitsBtn.classList.add('convert-units-btn');
   convertUnitsBtn.textContent = 'convert to fahrenheit';
@@ -28,9 +61,6 @@ export function displayWeather(weatherData) {
 
   for (let i = 0; i < 7; i++) {
     const day = weatherData.days[i];
-    console.log(day.datetime);
-    console.log(day.tempmax);
-    console.log(day.tempmin);
 
     const weatherDayDiv = document.createElement('div');
     weatherDayDiv.classList.add('weather-day-div');
@@ -46,60 +76,71 @@ export function displayWeather(weatherData) {
     weatherDate.textContent = formattedDate;
     weatherDayDiv.appendChild(weatherDate);
 
+    console.log(day);
+
     const temp = document.createElement('p');
-    temp.textContent = `The temperature is: ${day.temp}°C`;
+    temp.classList.add('weather-temperature');
+    temp.textContent = `The average temperature is: ${day.temp}°C`;
+
+    const tempMax = document.createElement('p');
+    tempMax.classList.add('weather-temperature');
+    tempMax.textContent = `The high temperature is: ${day.tempmax}°C;`;
+
+    const tempMin = document.createElement('p');
+    tempMin.classList.add('weather-temperature');
+    tempMin.textContent = `The low temperature is: ${day.tempmin}°C;`;
 
     // Keep track of current temperature unit
     let isCelsius = true;
     convertUnitsBtn.addEventListener('click', () => {
       if (isCelsius) {
-        let temperatureDataInFahrenheit = Math.floor(day.temp * (9 / 5) + 32);
-        temp.textContent = `The temperature is: ${temperatureDataInFahrenheit}°F`;
+        // Average temp
+        let avgTemp = convertToFahrenheit(day.temp);
+        temp.textContent = `The average temperature is: ${avgTemp}°F`;
+
+        // Max temp
+        let maxTemp = convertToFahrenheit(day.tempmax);
+        tempMax.textContent = `The high temperature is: ${maxTemp}°F`;
+
+        // Min temp
+        let minTemp = convertToFahrenheit(day.tempmin);
+        tempMin.textContent = `The low temperature is: ${minTemp}°F`;
+
         convertUnitsBtn.textContent = 'convert to celsius';
       } else {
         temp.textContent = `The temperature is: ${day.temp}°C`;
-        convertUnitsBtn.textContent = 'convert to fahrenheit';
+        tempMax.textContent = `The high temperature is: ${day.tempmin}°C`;
+        tempMin.textContent = `The low temperature is: ${day.tempmax}°C`;
+
+        convertUnitsBtn.textContent = 'Convert to Fahrenheit';
       }
 
       isCelsius = !isCelsius;
     });
 
     const description = document.createElement('p');
-    description.classList.add('description-text');
+    description.classList.add('weather-description');
     description.textContent = `Conditions: ${day.conditions}`;
 
-    // Set background video based on weather icon
-    const videoBackground = document.createElement('video');
-    videoBackground.autoplay = true;
-    videoBackground.loop = true;
-    videoBackground.muted = true;
-    videoBackground.playsInline = true;
-    videoBackground.classList.add('weather-background');
-
-    console.log(`icon for ${formattedDate} is: ${day.icon}`);
-    if (day.icon === 'rain') {
-      videoBackground.src = rainyDayVideo;
-    } else if (day.icon === 'snow') {
-      videoBackground.src = snowyDayVideo;
-    } else if (day.icon === 'fog') {
-      videoBackground.src = foggyDayVideo;
-    } else if (day.icon === 'wind') {
-      videoBackground.src = windyDayVideo;
-    } else if (day.icon === 'cloudy') {
-      videoBackground.src = cloudyDayVideo;
-    } else if (day.icon === 'partly-cloudy-day') {
-      videoBackground.src = partlyCloudyDayVideo;
-    } else if (day.icon === 'clear-day') {
-      videoBackground.src = clearDayVideo;
+    const videoBackground = await loadVideoBackground(day.icon);
+    if (videoBackground) {
+      weatherDayDiv.appendChild(videoBackground);
     }
 
-    weatherDayDiv.appendChild(videoBackground);
     weatherDayDiv.appendChild(description);
     weatherDayDiv.appendChild(temp);
+    weatherDayDiv.appendChild(tempMax);
+    weatherDayDiv.appendChild(tempMin);
     weatherContainer.appendChild(weatherDayDiv);
   }
 
   appContainer.appendChild(weatherContainer);
+}
+
+function convertToFahrenheit(dayTemp) {
+  let temperatureDataInFahrenheit = Math.floor(dayTemp * (9 / 5) + 32);
+
+  return temperatureDataInFahrenheit;
 }
 
 export function clearWeatherDisplay() {
@@ -112,42 +153,6 @@ export function clearWeatherDisplay() {
     convertUnitsBtn.remove();
   }
 }
-
-// export function displayCityImage(imageUrl) {
-//   console.log('displaying city image');
-//   console.log(`image url is ${imageUrl}`);
-//   const appContainer = document.getElementById('app');
-
-//   if (!appContainer) {
-//     console.error('App container not found');
-//     return;
-//   }
-
-//   const existingImage = appContainer.querySelector('img');
-//   if (existingImage) {
-//     existingImage.remove();
-//   }
-
-//   // Apply the background image to the weather container
-//   const weatherImageDiv = document.createElement('div');
-//   weatherImageDiv.classList.add('weather-image-div');
-
-//   const imgDiv = document.createElement('img');
-//   imgDiv.classList.add('weather-image');
-
-//   if (imageUrl) {
-//     imgDiv.src = imageUrl;
-//     imgDiv.alt = 'weather image';
-
-//     weatherImageDiv.appendChild(imgDiv);
-
-//     appContainer.appendChild(weatherImageDiv);
-//   } else {
-//     const fallbackImageUrl = './images/rainyDefault.jpg';
-//     imgDiv.src = fallbackImageUrl;
-//     imgDiv.alt = 'fallback image';
-//   }
-// }
 
 export function populateDropdown(cities) {
   const dropdown = document.getElementById('city-dropdown');

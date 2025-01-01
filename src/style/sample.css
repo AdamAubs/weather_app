@@ -121,7 +121,21 @@
   border-radius: 5px;
 }
 
-p {
+.weather-date {
+  font-size: 1em;
+  margin: 5px 0;
+  color: #333;
+  z-index: 1;
+}
+
+.weather-temperature {
+  font-size: 1em;
+  margin: 5px 0;
+  color: #333;
+  z-index: 1;
+}
+
+.weather-description {
   font-size: 1em;
   margin: 5px 0;
   color: #333;
@@ -147,7 +161,18 @@ p {
 @media (max-width: 600px) {
   .input-section {
     width: 100%;
+    max-width: 300px;
   }
+
+  #city-input {
+    padding: 15px; /* Increased padding to make the input box larger */
+    width: 100%; /* Make input take full width of the container */
+    font-size: 0.75rem; /* Increase font size for better readability */
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    box-sizing: border-box; /* Ensures padding doesn't affect total width */
+  }
+
   #city-input,
   #city-dropdown,
   #get-weather-btn {
@@ -155,7 +180,10 @@ p {
   }
 
   #get-weather-btn {
-    padding: 10px 2px;
+    font-size: 0.7rem;
+    padding: 10px 5px;
+    width: 5rem;
+    border-radius: 7px;
   }
   .weather-container {
     grid-template-columns: 1fr; /* Stack weather cards on small screens */

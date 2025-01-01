@@ -36,6 +36,9 @@ export default {
       {
         test: /\.(mp4|webm|ogg)$/i,
         type: 'asset/resource', // Handles the video files as separate resources
+        generator: {
+          filename: 'videos/[name][hash][ext]',
+        },
       },
     ],
   },

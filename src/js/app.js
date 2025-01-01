@@ -1,12 +1,6 @@
 import { getWeather } from './weatherAPI.js';
 import { fetchCities, fetchedCities } from './cityAPI.js';
-//import { fetchCityImage } from './imageAPI.js';
-import {
-  populateDropdown,
-  clearWeatherDisplay,
-  displayWeather,
-  // displayCityImage,
-} from './ui.js';
+import { populateDropdown, clearWeatherDisplay, displayWeather } from './ui.js';
 
 export function initializeApp() {
   const appContainer = document.getElementById('app');
@@ -37,14 +31,6 @@ export function initializeApp() {
         const weatherData = await getWeather(city);
         clearWeatherDisplay();
         displayWeather(weatherData);
-
-        // Get the weather condition (e.g. "rainy", "sunny")
-        const weatherCondition =
-          weatherData.currentConditions.conditions.toLowerCase();
-        console.log(`THe weather conditions are ${weatherCondition}`);
-        // Fetch the image based on the city and weather condition
-        // const cityImage = await fetchCityImage(city, weatherCondition);
-        // displayCityImage(cityImage, city);
       } catch (error) {
         alert(`Couldn't fetch data. Please try again. ERROR: ${error}`);
       }
