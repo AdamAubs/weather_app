@@ -109,8 +109,8 @@ export async function displayWeather(weatherData) {
         convertUnitsBtn.textContent = 'convert to celsius';
       } else {
         temp.textContent = `The temperature is: ${day.temp}°C`;
-        tempMax.textContent = `The high temperature is: ${day.tempmin}°C`;
-        tempMin.textContent = `The low temperature is: ${day.tempmax}°C`;
+        tempMax.textContent = `The high temperature is: ${day.tempmax}°C`;
+        tempMin.textContent = `The low temperature is: ${day.tempmin}°C`;
 
         convertUnitsBtn.textContent = 'Convert to Fahrenheit';
       }

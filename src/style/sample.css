@@ -121,27 +121,31 @@
   border-radius: 5px;
 }
 
+/* Typography for the Date */
 .weather-date {
-  font-size: 1em;
-  margin: 5px 0;
+  font-size: 1.2rem; /* Slightly larger font */
+  font-weight: bold; /* Emphasize the date */
   color: #333;
+  margin-bottom: 10px;
   z-index: 1;
 }
 
 .weather-temperature {
   font-size: 1em;
   margin: 5px 0;
-  color: #333;
+  color: #555;
   z-index: 1;
 }
 
+/* Conditions Description */
 .weather-description {
-  font-size: 1em;
-  margin: 5px 0;
+  font-size: 1rem;
   color: #333;
+  margin-top: 10px;
   z-index: 1;
 }
 
+/* Video Background Handling */
 .weather-background {
   position: absolute;
   top: 0;
@@ -149,12 +153,32 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 12px;
   z-index: 0; /* Push video behind the content */
+  opacity: 0.5; /* Reduce intensity for readability */
 }
 
 .weather-day-div {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between; /* Evenly distribute content */
+  background: linear-gradient(135deg, #e0f7fa, #a5e0e5); /* Subtle gradient */
+  border: 1px solid #ccc;
+  border-radius: 12px; /* Rounded edges for a modern look */
+  padding: 20px; /* Spacious padding for better content separation */
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); /* Add depth */
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease; /* Smooth hover effects */
   overflow: hidden; /* Ensure video doesn't exceed bounds */
+}
+
+.weather-day-div:hover {
+  transform: scale(1.05); /* Subtle zoom on hover */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Emphasize hover effect */
 }
 
 /* Media Query - For smaller screens */
@@ -182,7 +206,7 @@
   #get-weather-btn {
     font-size: 0.7rem;
     padding: 10px 5px;
-    width: 5rem;
+    width: 4rem;
     border-radius: 7px;
   }
   .weather-container {

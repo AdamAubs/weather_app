@@ -23,10 +23,10 @@ export function initializeApp() {
   });
 
   // Add event listener to the button
-  button.addEventListener('click', async () => {
+  const handleSearch = async () => {
     const city = document.getElementById('city-input').value;
 
-    if (fetchedCities.includes(city) || city.value !== '') {
+    if (fetchedCities.includes(city) || city !== '') {
       try {
         const weatherData = await getWeather(city);
         clearWeatherDisplay();
@@ -36,6 +36,16 @@ export function initializeApp() {
       }
     } else {
       alert('Invalid city! Please select a valid city from the suggestions.');
+    }
+  };
+
+  button.addEventListener('click', handleSearch);
+
+  // Add event listener to the input for "Enter" key press
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Prevent the default action (like form submission)
+      handleSearch(); // Call the same function used for the button
     }
   });
 }
