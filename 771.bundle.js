@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwebpack_template=self.webpackChunkwebpack_template||[]).push([[771],{771:(e,p,a)=>{e.exports=a.p+"videos/foggy-day767cdd979c8d5b8442fa.mp4"}}]);
